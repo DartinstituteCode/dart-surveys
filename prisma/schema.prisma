@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id             String   @id @default(nanoid())
+  name           String
+  groups         Group[]
+  users          User[]
+  surveys        Survey[]
+  fields         Field[]
+  primaryColor   String?
+  secondaryColor String?
+  logoUrl        String?
+}
+
+model Group {
+  id       String @id @default(nanoid())
+  name     String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+  tenantId String
+  users    User[]
+}
+
+model User {
+  id       String  @id @default(nanoid())
+  email    String  @unique
+  name     String
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  tenantId String
+  groups   Group[]
+}
+
+model Survey {
+  id        String     @id @default(nanoid())
+  name      String
+  tenant    Tenant     @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  fields    SurveyField[]
+  responses Response[]
+}
+
+// enum FieldType {
+//   HTML
+//   PAGE_BREAK
+//   SMALL_TEXT
+//   TEXT
+//   RATING_TO_5
+//   RATING_TO_10
+//   MULTIPLE_CHOICE
+//   TRUE_FALSE
+// }
+
+model SurveyField {
+  @@id([surveyId, index])
+  survey    Survey  @relation(fields: [surveyId], references: [id])
+  surveyId  String
+  field     Field   @relation(fields: [fieldId], references: [id])
+  fieldId   String
+  index     Int
+}
+
+model Field {
+  id          String   @id @default(nanoid())
+  text        String
+  type        Int // FieldType
+  typeOptions String?
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId    String
+  surveys     SurveyField[]
+  answers     Answer[]
+}
+
+model Response {
+  id           String   @id @default(nanoid())
+  survey       Survey   @relation(fields: [surveyId], references: [id])
+  surveyId     String
+  answers      Answer[]
+  respondentId String
+}
+
+model Answer {
+  id         String   @id @default(nanoid())
+  response   Response @relation(fields: [responseId], references: [id])
+  responseId String
+  field      Field    @relation(fields: [fieldId], references: [id])
+  fieldId    String
+  text       String?
+  rating     Int?
+  choice     Int?
+  trueFalse  Boolean?
+}

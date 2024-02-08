@@ -11,90 +11,73 @@ datasource db {
 }
 
 model Tenant {
-  id             String   @id @default(nanoid())
+  id             String  @id @default(nanoid())
   name           String
-  groups         Group[]
-  users          User[]
-  surveys        Survey[]
-  fields         Field[]
   primaryColor   String?
   secondaryColor String?
   logoUrl        String?
+
+  groups    Group[]
+  users     User[]
+  surveys   Survey[]
+  questions Question[]
 }
 
 model Group {
-  id       String @id @default(nanoid())
-  name     String
+  id   String @id @default(nanoid())
+  name String
+
   tenant   Tenant @relation(fields: [tenantId], references: [id])
   tenantId String
   users    User[]
 }
 
 model User {
-  id       String  @id @default(nanoid())
-  email    String  @unique
-  name     String
+  id    String @id @default(nanoid())
+  email String @unique
+  name  String
+
   tenant   Tenant  @relation(fields: [tenantId], references: [id])
   tenantId String
   groups   Group[]
 }
 
 model Survey {
-  id        String     @id @default(nanoid())
-  name      String
+  id     String @id @default(nanoid())
+  name   String
+  schema String
+
   tenant    Tenant     @relation(fields: [tenantId], references: [id])
   tenantId  String
-  fields    SurveyField[]
+  questions Question[]
   responses Response[]
 }
 
-// enum FieldType {
-//   HTML
-//   PAGE_BREAK
-//   SMALL_TEXT
-//   TEXT
-//   RATING_TO_5
-//   RATING_TO_10
-//   MULTIPLE_CHOICE
-//   TRUE_FALSE
-// }
+model Question {
+  id       String @id @default(nanoid())
+  schemaId String
 
-model SurveyField {
-  @@id([surveyId, index])
-  survey    Survey  @relation(fields: [surveyId], references: [id])
-  surveyId  String
-  field     Field   @relation(fields: [fieldId], references: [id])
-  fieldId   String
-  index     Int
-}
-
-model Field {
-  id          String   @id @default(nanoid())
-  text        String
-  type        Int // FieldType
-  typeOptions String?
-  tenant      Tenant   @relation(fields: [tenantId], references: [id])
-  tenantId    String
-  surveys     SurveyField[]
-  answers     Answer[]
+  tenant   Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId String
+  surveys  Survey[]
+  answers  Answer[]
 }
 
 model Response {
-  id           String   @id @default(nanoid())
-  survey       Survey   @relation(fields: [surveyId], references: [id])
-  surveyId     String
-  answers      Answer[]
-  respondentId String
+  id String @id @default(nanoid())
+
+  survey   Survey   @relation(fields: [surveyId], references: [id])
+  surveyId String
+  answers  Answer[]
 }
 
 model Answer {
-  id         String   @id @default(nanoid())
-  response   Response @relation(fields: [responseId], references: [id])
+  id     String   @id @default(nanoid())
+  string String?
+  int    Int?
+
+  response   Response  @relation(fields: [responseId], references: [id])
   responseId String
-  field      Field    @relation(fields: [fieldId], references: [id])
-  fieldId    String
-  text       String?
-  rating     Int?
-  choice     Int?
-  trueFalse  Boolean?
+  question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
 }

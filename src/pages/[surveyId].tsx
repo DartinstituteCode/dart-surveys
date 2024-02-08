@@ -1,5 +1,10 @@
-import { Survey } from '@prisma/client';
+import { Box } from '@chakra-ui/react';
+import { Survey as SurveyType } from '@prisma/client';
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { useCallback } from 'react';
+import { Model } from 'survey-core';
+import 'survey-core/defaultV2.min.css';
+import { Survey } from 'survey-react-ui';
 import db from '../db';
 
 export const getServerSideProps = (async ({ params }) => {
@@ -9,24 +14,8 @@ export const getServerSideProps = (async ({ params }) => {
 
   const survey = await db.survey.findUnique({
     where: { id: params.surveyId },
-    // select: {
-    //   name: true,
-    //   fields: {
-    //     select: {
-    //       index: true,
-    //       field: {
-    //         select: {
-    //           id: true,
-    //           text: true,
-    //           type: true,
-    //         },
-    //       },
-    //     },
-    //   },
-    //   tenant: true,
-    // },
     include: {
-      fields: { include: { field: true } },
+      questions: true,
       tenant: true,
     },
   });
@@ -36,23 +25,19 @@ export const getServerSideProps = (async ({ params }) => {
   }
 
   return { props: { survey } };
-}) satisfies GetServerSideProps<{ survey: Survey }>;
+}) satisfies GetServerSideProps<{ survey: SurveyType }>;
 
-// This page renders out each of the fields in the survey, separated by page breaks.
 export default function Page({ survey }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const surveyModel = new Model(survey.schema);
+  const alertResults = useCallback((sender: any) => {
+    console.log(sender);
+  }, []);
+
+  surveyModel.onComplete.add(alertResults);
+
   return (
-    <main>
-      <h1>{survey.name}</h1>
-      <pre>{JSON.stringify(survey, null, 4)}</pre>
-      <form>
-        {survey.fields.map((field) => (
-          <div key={field.index}>
-            <label htmlFor={field.field.id}>{field.field.text}</label>
-            <input type="text" id={field.field.id} name={field.field.id} />
-          </div>
-        ))}
-        <button type="submit">Submit</button>
-      </form>
-    </main>
+    <Box maxW="70rem" mx="auto" my={8}>
+      <Survey model={surveyModel} />
+    </Box>
   );
 }

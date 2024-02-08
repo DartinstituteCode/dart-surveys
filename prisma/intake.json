@@ -1,0 +1,200 @@
+{
+  "pages": [
+    {
+      "name": "page1",
+      "elements": [
+        {
+          "type": "text",
+          "name": "name",
+          "title": "Name",
+          "autocomplete": "name",
+          "placeholder": "John Doe"
+        },
+        {
+          "type": "text",
+          "name": "phoneNumber",
+          "startWithNewLine": false,
+          "title": "Phone Number",
+          "inputType": "tel",
+          "autocomplete": "tel",
+          "placeholder": "(123) 456-7890"
+        },
+        {
+          "type": "text",
+          "name": "email",
+          "title": "Email",
+          "inputType": "email",
+          "autocomplete": "email",
+          "placeholder": "johndoe@example.com"
+        }
+      ],
+      "title": "Info"
+    },
+    {
+      "name": "page2",
+      "elements": [
+        {
+          "type": "rating",
+          "name": "overall-well-being",
+          "title": "On a scale of 1-5, please rate your overall well-being",
+          "minRateDescription": "Very Poor",
+          "maxRateDescription": "Excellent"
+        },
+        {
+          "type": "rating",
+          "name": "quality-of-care",
+          "title": "How satisfied are you with the quality of care you've received thus far?",
+          "minRateDescription": "Very Dissatisfied",
+          "maxRateDescription": "Very Satisfied"
+        }
+      ],
+      "title": "Well-being"
+    },
+    {
+      "name": "page3",
+      "elements": [
+        {
+          "type": "rating",
+          "name": "do-you-feel-safe",
+          "title": "Do you feel safe and secure in this new place?",
+          "minRateDescription": "Not at all Safe",
+          "maxRateDescription": "Very Safe"
+        },
+        {
+          "type": "rating",
+          "name": "staff-preparedness",
+          "title": "How well-prepared do you think the staff is to handle emergency situations?",
+          "minRateDescription": "Very Slow",
+          "maxRateDescription": "Very Fast"
+        }
+      ],
+      "title": "Sense of Safety"
+    },
+    {
+      "name": "page4",
+      "elements": [
+        {
+          "type": "rating",
+          "name": "pain-level",
+          "title": "Are you experiencing any pain currently?",
+          "minRateDescription": "Excruciating Pain",
+          "maxRateDescription": "No pain"
+        },
+        {
+          "type": "rating",
+          "name": "pain-management",
+          "title": "How well has your pain been managed?",
+          "minRateDescription": "Very Poorly Managed",
+          "maxRateDescription": "Very Well Managed"
+        }
+      ],
+      "title": "Pain Assessment"
+    },
+    {
+      "name": "page5",
+      "elements": [
+        {
+          "type": "rating",
+          "name": "pain-while-sleeping",
+          "title": "Do you experience aching or pain while sleeping?",
+          "minRateDescription": "Always",
+          "maxRateDescription": "Never"
+        },
+        {
+          "type": "rating",
+          "name": "sleep-quality",
+          "title": "How would you rate the quality of your sleep?",
+          "minRateDescription": "Very Poor",
+          "maxRateDescription": "Excellent"
+        }
+      ],
+      "title": "Sleeping and Rest"
+    },
+    {
+      "name": "page6",
+      "elements": [
+        {
+          "type": "rating",
+          "name": "social-activity-frequency",
+          "title": "How frequently do you intend to engage in social activities or interactions with other residents?",
+          "minRateDescription": "Never",
+          "maxRateDescription": "Very frequently"
+        },
+        {
+          "type": "rating",
+          "name": "connectedness-and-support",
+          "title": "Do you get a sense of connectedness and support in this home community?",
+          "minRateDescription": "Not at all",
+          "maxRateDescription": "Very much"
+        }
+      ],
+      "title": "Social Engagement"
+    },
+    {
+      "name": "page7",
+      "elements": [
+        {
+          "type": "matrix",
+          "name": "daily-task-ability",
+          "title": "Please rate your ability to complete the following tasks independently:",
+          "columns": [
+            {
+              "value": "Column 1",
+              "text": "Very poor"
+            },
+            {
+              "value": "Column 2",
+              "text": "Poor"
+            },
+            {
+              "value": "Column 3",
+              "text": "Neutral"
+            },
+            {
+              "value": "Column 4",
+              "text": "Good"
+            },
+            {
+              "value": "Column 5",
+              "text": "Excellent"
+            }
+          ],
+          "rows": [
+            {
+              "value": "Row 1",
+              "text": "Walking"
+            },
+            {
+              "value": "Row 2",
+              "text": "Bathing"
+            },
+            {
+              "value": "Row 3",
+              "text": "Dressing"
+            },
+            {
+              "value": "Row 4",
+              "text": "Cooking"
+            },
+            {
+              "value": "Row 5",
+              "text": "Hygiene (e.g., brushing teeth, combing hair)"
+            }
+          ]
+        }
+      ],
+      "title": "Daily Task Ability"
+    },
+    {
+      "name": "page8",
+      "elements": [
+        {
+          "type": "comment",
+          "name": "additional-comments",
+          "title": "Additional Comments:"
+        }
+      ],
+      "title": "Open Response"
+    }
+  ]
+}
